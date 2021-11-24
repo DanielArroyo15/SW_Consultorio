@@ -14,7 +14,11 @@ namespace SW_Consultorio.Controllers
         // GET: Calendar
         public ActionResult Calendario()
         {
-            return View();
+            var medicos = db.Medico.ToList();
+            var pacientes = db.Paciente.ToList();
+            ViewBag.Medicos = medicos;
+            ViewBag.Pacientes = pacientes;
+            return View(medicos);
         }
 
         public JsonResult ListaCita()
