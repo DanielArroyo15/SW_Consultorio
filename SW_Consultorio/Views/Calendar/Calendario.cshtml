@@ -87,13 +87,14 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="paciente">Paciente</label>
-                                    @*<select class="form-control" id="pacienteid">
-                                        @foreach (var item in Model)
+                                    <label for="paciente">Paciente</label>                                    
+                                    <select class="form-control" id="pacienteid">
+                                        @{var pacientes = (List<SW_Consultorio.Models.Paciente>)ViewBag.Pacientes;}                                          
+                                        @foreach (var item in pacientes)
                                         {
-                                            <option value="@Html.DisplayFor(modelItem => item.pacientes.PacienteID)">@Html.DisplayFor(modelItem => item.Nombre)</option>
+                                            <option value="@Html.DisplayFor(modelItem => item.PacienteID)">@Html.DisplayFor(modelItem => item.Nombre)</option>
                                         }
-                                    </select>*@
+                                    </select>
                                 </div>
                             </div>
                         </div>
