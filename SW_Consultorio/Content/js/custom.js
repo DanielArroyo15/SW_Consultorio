@@ -5030,7 +5030,7 @@ $(document).ready(function () {
     init_gauge();
     init_PNotify();
     init_starrr();
-    init_calendar();
+    //init_calendar();
     init_compose();
     init_CustomNotification();
     init_autosize();

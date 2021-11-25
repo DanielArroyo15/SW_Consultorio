@@ -25,6 +25,7 @@ namespace SW_Consultorio.Controllers
                     lst = (from p in db.Paciente
                            select p).ToList();
                 }
+                ViewBag.Pacientes = lst.Count;
                 return View(lst);
 
             } catch (Exception ex)

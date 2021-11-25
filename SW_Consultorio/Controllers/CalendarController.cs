@@ -24,12 +24,23 @@ namespace SW_Consultorio.Controllers
         public JsonResult ListaCita()
         {
             bool ConfiguraProxy = db.Configuration.ProxyCreationEnabled;
-            List<Cita> list = new List<Cita>();
+            List<CitaCalendario> list = new List<CitaCalendario>();
 
             try
             {
                 db.Configuration.ProxyCreationEnabled = false;
-                list = db.Cita.ToList();
+                var citas= db.Cita.ToList();
+
+                foreach (var item in citas)
+                {
+                    list.Add(new CitaCalendario
+                    {
+                        Titulo = item.Obervacion,
+                        FechaAtencion = item.FechaAtencion.Value.ToShortDateString(),
+                        HoraInicio = item.InicioAtencion.Value.ToString(),
+                        HoraFin = item.FinAtencion.Value.ToString()
+                    });
+                }
 
                 return Json(list,JsonRequestBehavior.AllowGet);
             }

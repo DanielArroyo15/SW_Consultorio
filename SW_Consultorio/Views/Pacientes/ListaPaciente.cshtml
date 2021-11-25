@@ -53,7 +53,7 @@
                             </thead>
                             @foreach (var item in Model)
                             {
-                                <tbody>
+                                <tbody id="tbodyData">
                                     <tr>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Dni)
@@ -220,6 +220,8 @@
                     if (data.resultado) {
                         alertaok();
                         $('#FormModal').modal('hide');
+
+                        $("#tbodyData").append("<tr><td></td></tr>");
                        location.reload();
                     } else {
                         alertanot();
