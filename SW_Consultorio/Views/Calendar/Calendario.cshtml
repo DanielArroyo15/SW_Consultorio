@@ -284,13 +284,24 @@
                     },                    
                     selectable: true,
                     selectHelper: true,
-                    //dateClick: function (info) {
-                    //    alert('clicked ' + info.dateStr);
-                    //},
+                    dateClick: function (info) {
+                        alert('clicked ' + info.dateStr);
+                    },
                     select: function (start, end, allDay) {
                         
                         $('#fc_create').click();
-                        $('#FechaAtencion').val();
+                        let options = {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit'
+                        };
+
+                        let optionsTime = {
+                            hour12: false
+                        };
+
+                        $('#FechaAtencion').val(start._d.toLocaleString("es-PE", options));
+                        $("#HoraInicio").val(start._d.toISOString().substring(11,16));
                        
                         started = start;
                         ended = end;
