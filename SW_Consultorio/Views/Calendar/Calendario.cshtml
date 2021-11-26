@@ -14,6 +14,12 @@
         @*<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet" />
             <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.2/dist/fullcalendar.print.min.css" rel="stylesheet" media="print" />*@
 
+        <style>
+            .fc-content {
+                color: white;
+            }
+        </style>
+
     </head>
 }
 
@@ -87,9 +93,9 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="paciente">Paciente</label>                                    
+                                    <label for="paciente">Paciente</label>
                                     <select class="form-control" id="pacienteid">
-                                        @{var pacientes = (List<SW_Consultorio.Models.Paciente>)ViewBag.Pacientes;}                                          
+                                        @{ var pacientes = (List<SW_Consultorio.Models.Paciente>)ViewBag.Pacientes; }
                                         @foreach (var item in pacientes)
                                         {
                                             <option value="@Html.DisplayFor(modelItem => item.PacienteID)">@Html.DisplayFor(modelItem => item.Nombre)</option>
@@ -104,6 +110,26 @@
                                     <label class="col-sm-3 control-label">Fecha Atencion</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="FechaAtencion" name="FechaAtencion" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Hora Incio</label>
+                                    <div class="col-sm-9">
+                                        <input type="time" class="form-control" id="HoraInicio" name="HoraInicio" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Hora Fin</label>
+                                    <div class="col-sm-9">
+                                        <input type="time" class="form-control" id="HoraFin" name="HoraFin" />
                                     </div>
                                 </div>
                             </div>
@@ -136,12 +162,12 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default antoclose" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary antosubmit">Guardar</button>
+                <button type="button" class="btn btn-primary antosubmit" onclick="Guardar()">Guardar</button>
             </div>
         </div>
     </div>
 </div>
-<!--Inicio Modal para crear nuevo evento-->
+<!--Fin Modal para crear nuevo evento-->
 <!--Inicio Modal para editar evento-->
 <div id="CalenderModalEdit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -157,7 +183,13 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="paciente">Paciente</label>
-                                    <select class="form-control" id="pacienteid"></select>
+                                    <select class="form-control" id="pacienteid">
+                                        @{ var pacientesedit = (List<SW_Consultorio.Models.Paciente>)ViewBag.Pacientes; }
+                                        @foreach (var item in pacientesedit)
+                                        {
+                                            <option value="@Html.DisplayFor(modelItem => item.PacienteID)">@Html.DisplayFor(modelItem => item.Nombre)</option>
+                                        }
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -166,7 +198,27 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">Fecha Atencion</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="FechaAtencion" name="FechaAtencion" />
+                                        <input type="text" class="form-control" id="FechaAtencionEdit" name="FechaAtencion" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Hora Incio</label>
+                                    <div class="col-sm-9">
+                                        <input type="time" class="form-control" id="HoraInicioEdit" name="FechaAtencion" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Hora Fin</label>
+                                    <div class="col-sm-9">
+                                        <input type="time" class="form-control" id="HoraFinEdit" name="FechaAtencion" />
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +228,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">Description</label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" style="height:55px;" id="descr2" name="descr"></textarea>
+                                        <textarea class="form-control" style="height:55px;" id="descr2Edit" name="descr"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -185,7 +237,12 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">Medico</label>
-                                    <select class="form-control" id="medicoid"></select>
+                                    <select class="form-control" id="medicoid">
+                                        @foreach (var item in Model)
+                                        {
+                                            <option value="@Html.DisplayFor(modelItem => item.MedicoID)">@Html.DisplayFor(modelItem => item.Nombre)</option>
+                                        }
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -203,85 +260,183 @@
 <div id="fc_create" data-toggle="modal" data-target="#CalenderModalNew"></div>
 <div id="fc_edit" data-toggle="modal" data-target="#CalenderModalEdit"></div>
 
-<!--Inicio Modal para editar evento-->
+<!--Fin Modal para editar evento-->
 
 @section scripts
 {
     <script src="~/vendors/moment/min/moment.min.js"></script>
     <script src="~/vendors/fullcalendar/dist/fullcalendar.min.js"></script>
 
-    <script> 
-       function init_calendar(){ 
+    <script type="text/javascript">
 
-                    if (typeof ($.fn.fullCalendar) === 'undefined') { return; }
-                    console.log('init_calendar');
 
-                    var date = new Date(),
-                        d = date.getDate(),
-                        m = date.getMonth(),
-                        y = date.getFullYear(),
-                        started,
-                        categoryClass;
+        var calendar = {
+            Init: function (data) {
 
-                    var calendar = $('#calendar').fullCalendar({
-                        header: {
-                            left: 'prev,next today',
-                            center: 'title',
-                            right: 'month,agendaWeek,agendaDay,listMonth'
-                        },
-                        selectable: true,
-                        selectHelper: true,
-                        select: function (start, end, allDay) {
-                            $('#fc_create').click();
+                if (typeof ($.fn.fullCalendar) === 'undefined') { return; }
+                console.log('init_calendar');
 
-                            started = start;
-                            ended = end;
+                var calendar = $('#calendar').fullCalendar({
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay,listMonth'
+                    },                    
+                    selectable: true,
+                    selectHelper: true,
+                    //dateClick: function (info) {
+                    //    alert('clicked ' + info.dateStr);
+                    //},
+                    select: function (start, end, allDay) {
+                        
+                        $('#fc_create').click();
+                        $('#FechaAtencion').val();
+                       
+                        started = start;
+                        ended = end;
 
-                            $(".antosubmit").on("click", function () {
-                                var title = $("#title").val();
-                                if (end) {
-                                    ended = end;
-                                }
+                        $(".antosubmit").on("click", function () {
 
-                                categoryClass = $("#event_type").val();
+                            //metodo guardar
+                            //console.log("Registro guardado");
+                            //var title = $("#descr2").val();
+                            //if (end) {
+                            //    ended = end;
+                            //}
 
-                                if (title) {
-                                    calendar.fullCalendar('renderEvent', {
-                                        title: title,
-                                        start: started,
-                                        end: end,
-                                        allDay: allDay
-                                    },
-                                        true // make the event "stick"
-                                    );
-                                }
+                            //categoryClass = $("#event_type").val();
 
-                                $('#title').val('');
+                            //if (title) {
+                            //    calendar.fullCalendar('renderEvent', {
+                            //        title: title,
+                            //        start: started,
+                            //        end: end,
+                            //        allDay: allDay
+                            //    },
+                            //        true // make the event "stick"
+                            //    );
+                            //}
 
-                                calendar.fullCalendar('unselect');
+                            ////AJAX Guardar en base de datos
 
-                                $('.antoclose').click();
-
-                                return false;
-                            });
-                        },
-                        eventClick: function (calEvent, jsEvent, view) {
-                            $('#fc_edit').click();
-                            $('#title2').val(calEvent.title);
-
-                            categoryClass = $("#event_type").val();
-
-                            $(".antosubmit2").on("click", function () {
-                                calEvent.title = $("#title2").val();
-
-                                calendar.fullCalendar('updateEvent', calEvent);
-                                $('.antoclose2').click();
-                            });
+                            $('#descr2').val('');
 
                             calendar.fullCalendar('unselect');
-                        },
-                        editable: true,
-                    });
-       };
+
+                            $('.antoclose').click();
+
+                            return false;
+                        });
+                    },
+                    
+                    eventClick: function (calEvent, jsEvent, view) {
+                        $('#fc_edit').click();
+                        $('#descr2Edit').val(calEvent.title);
+                        $("#FechaAtencionEdit").val(calEvent.start._d.toLocaleString('es-PE'));
+
+                        categoryClass = $("#event_type").val();
+
+                        $(".antosubmit2").on("click", function () {
+                            calEvent.title = $("#descr2Edit").val();
+
+                            calendar.fullCalendar('updateEvent', calEvent);
+                            alert("Registro actualizado.");
+
+                            //Ajax actualización BD
+
+                            $('.antoclose2').click();
+                        });
+
+                        calendar.fullCalendar('unselect');
+                    },
+                    editable: true,
+                    events: data
+                });
+            }
+        };
+
+        $(document).ready(function () {
+
+            var dataCitas = [];
+
+            jQuery.ajax({
+                    url: "@Url.Action("ListaCita", "Calendar")",
+                    type: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+
+                        if (data != null) {
+                            $.each(data, function (i, v) {
+                                var arrayFecha = v.FechaAtencion.split("/");
+                                var arrayHoraInicio = v.HoraInicio.split(":");
+                                var arrayHoraFin = v.HoraFin.split(":");
+                                var cita = new Object();
+                                cita.title = v.Observacion;
+                                cita.start = new Date(arrayFecha[2], parseInt(arrayFecha[1])-1, arrayFecha[0], arrayHoraInicio[0], arrayHoraInicio[1], arrayHoraInicio[2]);
+                                cita.end = new Date(arrayFecha[2], parseInt(arrayFecha[1]) - 1, arrayFecha[0], arrayHoraFin[0], arrayHoraFin[1], arrayHoraFin[2]);
+                                //cita.paciente = v.PacienteID;
+                                //cita.medico = v.MedicoID;
+
+                                console.log(cita);
+                                dataCitas.push(cita);
+                            });
+                            calendar.Init(dataCitas);
+                        }
+                    }
+            });
+
+            var date = new Date(),
+                d = date.getDate(),
+                m = date.getMonth(),
+                y = date.getFullYear(),
+                started,
+                categoryClass;
+
+        })
+         function Guardar() {
+             var $data = {
+                 ocita: {
+                     PacienteID: parseInt($('#pacienteid').val()),
+                     FechaAtencion: $('#FechaAtencion').val(),
+                     HoraInicio: $('#HoraInicio').val(),
+                     HoraFin: $('#HoraFin').val(),
+                     Observacion: $('#descr2').val(),
+                     MedicoID: parseInt($('#medicoid').val()),
+                     EstadoCita:1
+                 }
+             }
+           jQuery.ajax({
+                  url: '@Url.Action("Guardar","Calendar")',
+                  type: 'POST',
+                  data: JSON.stringify($data),
+               dataType: 'json',
+               contentType: "application/json; charset=utf-8",
+               success: function (data) {
+                   if (data.resultado) {
+                             alertaok();
+                         $("#fc_create").modal('hide');
+                        calendar.fullCalendar('renderEvent');
+                         } else {
+                         alertanot();
+                                }
+
+               }
+           });
+        }
+        function alertaok() {
+            Swal.fire(
+                'Guardado!',
+                'Correctamente!',
+                'success'
+            )
+        }
+        function alertanot() {
+            Swal.fire({
+                icon: 'error',
+                title: 'Ocurrió un error...',
+                text: 'No se pudo guardar!',
+            })
+        }
     </script>
 }

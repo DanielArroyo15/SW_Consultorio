@@ -25,7 +25,7 @@ namespace SW_Consultorio.Models
         public Nullable<System.TimeSpan> InicioAtencion { get; set; }
         public Nullable<System.TimeSpan> FinAtencion { get; set; }
         public string Obervacion { get; set; }
-        public Nullable<int> MedicoID { get; set; }
+        public int MedicoID { get; set; }
         public int PacienteID { get; set; }
         public int UsusarioID { get; set; }
         public int EstadoCitaID { get; set; }
