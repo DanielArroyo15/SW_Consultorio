@@ -918,11 +918,6 @@
     <Content Include="vendors\jquery\dist\jquery.min.map" />
     <Content Include="vendors\jquery\external\sizzle\dist\sizzle.min.map" />
     <Content Include="vendors\jquery\src\.jshintrc" />
-    <Content Include="vendors\moment\.bower.json" />
-    <Content Include="vendors\moment\bower.json" />
-    <Content Include="vendors\moment\CHANGELOG.md" />
-    <Content Include="vendors\moment\LICENSE" />
-    <Content Include="vendors\moment\README.md" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Incio\Index.cshtml" />
     <Content Include="Views\Pacientes\ListaPaciente.cshtml" />

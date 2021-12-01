@@ -25,7 +25,6 @@ namespace SW_Consultorio.Controllers
         {
             bool ConfiguraProxy = db.Configuration.ProxyCreationEnabled;
              List<CitaCalendario> lst = new List<CitaCalendario>();
-           // List<Cita> lst = new List<Cita>();
 
             try
             {
@@ -36,24 +35,21 @@ namespace SW_Consultorio.Controllers
                 {
                     lst.Add(new CitaCalendario
                     {
-                        //PacienteID = item.PacienteID,
-                        //FechaAtencion = item.FechaAtencion.ToString(),
-                        //HoraInicio = item.InicioAtencion.Value.ToString(),
-                        //HoraFin = item.FinAtencion.Value.ToString(),
-                        //MedicoID = item.MedicoID,
-                        //Observacion = item.Obervacion
-                        Observacion = item.Obervacion,
-                        FechaAtencion = item.FechaAtencion.Value.ToShortDateString(),
+                        Titulo = item.Obervacion,
+                        Fecha = item.FechaAtencion.Value.ToShortDateString(),
                         HoraInicio = item.InicioAtencion.Value.ToString(),
-                        HoraFin = item.FinAtencion.Value.ToString()
-                    }) ;
+                        HoraFin = item.FinAtencion.Value.ToString(),
+                        PacienteID=item.PacienteID,
+                        MedicoID=item.MedicoID,
+                        CitaCalendarioID=item.CitaID
+                    });
                 }
 
                 return Json(lst, JsonRequestBehavior.AllowGet);
             }
             catch
             {
-                return (ViewBag.Error("Error"));
+                return ViewBag.Error("Error");
             }
             finally
             {
@@ -70,8 +66,21 @@ namespace SW_Consultorio.Controllers
             {
                 if(ocitas.CitaID == 0)
                 {
-                    
                     db.Cita.Add(ocitas);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    Cita tempo = (from c in db.Cita
+                                  where c.CitaID == ocitas.CitaID
+                                  select c).FirstOrDefault();
+                    tempo.FechaAtencion = ocitas.FechaAtencion;
+                    tempo.InicioAtencion = ocitas.InicioAtencion;
+                    tempo.FinAtencion = ocitas.FinAtencion;
+                    tempo.Obervacion = ocitas.Obervacion.Trim();
+                    tempo.PacienteID = ocitas.PacienteID;
+                    tempo.MedicoID = ocitas.MedicoID;
+
                     db.SaveChanges();
                 }
             }

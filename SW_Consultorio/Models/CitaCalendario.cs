@@ -7,9 +7,10 @@ namespace SW_Consultorio.Models
 {
     public class CitaCalendario
     {
-        public string Observacion { get; set; }
 
-        public string FechaAtencion { get; set; }
+        public string Titulo { get; set; }
+
+        public string Fecha { get; set; }
 
         public string HoraInicio { get; set; }
 
@@ -22,6 +23,7 @@ namespace SW_Consultorio.Models
         public int UsuarioID { get; set; }
 
         public int EstadoCitaID { get; set; }
+        public int CitaCalendarioID { get; set; }
 
     }
 }
