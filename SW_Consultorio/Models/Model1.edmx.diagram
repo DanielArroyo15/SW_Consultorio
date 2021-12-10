@@ -4,20 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="af3f5c4babea4d6e971b1545c6550215" Name="Diagram1">
-        <EntityTypeShape EntityType="DB_SWCDModel.Cita" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_SWCDModel.Estado_Cita" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_SWCDModel.Medico" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_SWCDModel.Paciente" Width="1.5" PointX="3" PointY="10.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_SWCDModel.Perfil" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_SWCDModel.Receta" Width="1.5" PointX="7.5" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_SWCDModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_SWCDModel.Usuario" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
+      <Diagram DiagramId="c4c08fdf400a46dcb09f453ecd41524c" Name="Diagram1">
+        <EntityTypeShape EntityType="DB_SWCDModel.Cita" Width="1.5" PointX="7.5" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SWCDModel.Empleado" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SWCDModel.Estado_Cita" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SWCDModel.Medico" Width="1.5" PointX="5.25" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SWCDModel.Paciente" Width="1.5" PointX="5.25" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SWCDModel.Perfil" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SWCDModel.Receta" Width="1.5" PointX="9.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SWCDModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SWCDModel.Usuario" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
         <AssociationConnector Association="DB_SWCDModel.FK_Cita_Estado_Cita" ManuallyRouted="false" />
         <AssociationConnector Association="DB_SWCDModel.FK_Cita_Medico" ManuallyRouted="false" />
         <AssociationConnector Association="DB_SWCDModel.FK_Cita_Paciente" ManuallyRouted="false" />
         <AssociationConnector Association="DB_SWCDModel.FK_Cita_Usuario" ManuallyRouted="false" />
         <AssociationConnector Association="DB_SWCDModel.FK_Receta_Cita" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_SWCDModel.FK_Medico_Usuario" ManuallyRouted="false" />
         <AssociationConnector Association="DB_SWCDModel.FK_Usuario_Perfil" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>

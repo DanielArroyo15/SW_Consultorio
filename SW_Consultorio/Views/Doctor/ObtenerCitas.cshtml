@@ -1,6 +1,6 @@
-﻿@model List<SW_Consultorio.Models.Paciente>
+﻿@model List<SW_Consultorio.Models.SP_CitaMedicos_Result>
 @{
-    ViewBag.Title = "ListaPaciente";
+    ViewBag.Title = "ObtenerCitas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -8,23 +8,16 @@
 {
     <head>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    </head>    
+    </head>
 }
 
 <div class="col-md-12 col-sm-12 ">
     <div class="x_panel">
         <div class="x_title">
-            <h2>Pacientes Registrados</h2>
+            <h2>Citas Registrados</h2>
             <ul class="nav navbar-right panel_toolbox">
                 <li>
                     <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Settings 1</a>
-                        <a class="dropdown-item" href="#">Settings 2</a>
-                    </div>
                 </li>
                 <li>
                     <a class="close-link"><i class="fa fa-close"></i></a>
@@ -32,9 +25,6 @@
             </ul>
             <div class="clearfix"></div>
         </div>
-        <label class="btn btn-primary left" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-            <input type="radio" class="join-btn" onclick="abrirModal(0)"> Nuevo
-        </label>
         <div class="x_content">
             <div class="row">
                 <div class="col-sm-12">
@@ -45,12 +35,13 @@
                                     <th>DNI</th>
                                     <th>Nombre</th>
                                     <th>Apellido</th>
-                                    <th>Direccion</th>
-                                    <th>Telefono</th>
-                                    <th>Email</th>
+                                    <th>Fecha</th>
+                                    <th>Observacion</th>
+                                    <th>Hora Inicio</th>
                                     <th> </th>
                                 </tr>
                             </thead>
+
                             @foreach (var item in Model)
                             {
                                 <tbody id="tbodyData">
@@ -64,18 +55,17 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Apellido)
                                         </td>
-                                        <td >
-                                            @Html.DisplayFor(modelItem => item.Direccion)
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FechaAtencion)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Telefono)
+                                            @Html.DisplayFor(modelItem => item.Obervacion)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Email)
+                                            @Html.DisplayFor(modelItem => item.InicioAtencion)
                                         </td>
                                         <td style="text-align:center">
-                                            @*<button class="btn btn-warning" type="button" onclick="location.href='@Url.Action("Edit","Pacientes",new { id = item.PacienteID})'"><span class="glyphicon glyphicon-edit" ></span></button>*@
-                                            <button class="btn btn-warning" type="button" onclick="abrirModal(@Html.DisplayFor(modelItem => item.PacienteID))"><span class="glyphicon glyphicon-edit"></span></button>
+                                            <button class="btn btn-success" type="button" onclick="abrirModal()"><span class="fa fa-microphone"> Llamar</span></button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -87,9 +77,7 @@
         </div>
     </div>
 </div>
-
-<!--Ventana modal emergente-->
-
+<!--Modal Emergente-->
 <div class="modal fade" id="FormModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -126,48 +114,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="txtdireccion">Direccion:</label>
-                                <input type="text" class="form-control required" id="txtdireccion" name="descripcion" autocomplete="off">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="txttelefono">Telefono:</label>
-                                <input type="text" class="form-control required" id="txttelefono" name="descripcion" autocomplete="off">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="txtemail">Email:</label>
-                                <input type="text" class="form-control required" id="txtemail" name="descripcion" autocomplete="off">
-                            </div>
-                        </div>
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+                <button type="button" class="btn btn-primary" onclick="Guardar()">Registrar Consulta</button>
             </div>
         </div>
     </div>
 </div>
 
-@section scripts
-{
-    <script>
-        $(document).ready(function () {
-        });
-        function abrirModal($pacienteid) {
-            $("#txtpacienteid").val($pacienteid);
-            if ($pacienteid != 0) {
+
+
+<!--Fin Modal Emergente-->
+<!--Script-->
+<script>
+    function abrirModal($pacienteid) {
+           if ($pacienteid != 0) {
                 jQuery.ajax({
                     url: "@Url.Action("Obtiene", "Pacientes")" + "?pacienteid=" + $pacienteid,
                     type: "GET",
@@ -177,6 +140,8 @@
 
                         if (data != null) {
                             $("#txtdni").val(data.Dni);
+
+
                             $("#txtnombre").val(data.Nombre);
                             $("#txtapellido").val(data.Apellido);
                             $("#txtdireccion").val(data.Direccion);
@@ -185,69 +150,9 @@
                         }
                     }
                 });
-            }
-            else {
-                $("#txtdni").val("");
-                $("#txtnombre").val("");
-                $("#txtapellido").val("");
-                $("#txtdireccion").val("");
-                $("#txttelefono").val("");
-                $("#txtemail").val("");
-            }
-            $('#FormModal').modal('show');
-        }
-
-        function Guardar() {
-            var $data = {
-                oPaciente: {
-                    PacienteID: parseInt($("#txtpacienteid").val()),
-                    Dni: $("#txtdni").val(),
-                    Nombre: $("#txtnombre").val(),
-                    Apellido: $("#txtapellido").val(),
-                    Direccion: $("#txtdireccion").val(),
-                    Telefono: $("#txttelefono").val(),
-                    Email: $("#txtemail").val(),
-                }
-            }
-            jQuery.ajax({
-                url: "@Url.Action("Guardar","Pacientes")",
-                type: "POST",
-                data: JSON.stringify($data),
-                dataType:"json",
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    if (data.resultado) {
-                        $('#FormModal').modal('hide');
-                        location.reload();
-                        alertaok();
-                    } else {
-                        alertanot();
-                    }
-                },
-                error: function (error) {
-                    console.log(error)
-                },
-                beforeSend: function () {
-
-                }
-            });
-        }
-        function alertaok() {
-            Swal.fire(
-                'Guardado!',
-                'Correctamente!',
-                'success'
-            )
-        }
-        function alertanot() {
-            Swal.fire({
-                icon: 'error',
-                title: 'Ocurrió un error...',
-                text: 'No se pudo guardar!',                
-            })
-        }
-    </script>
-}
+           }
+    }
 
 
-
+</script>
+<!--Script-->

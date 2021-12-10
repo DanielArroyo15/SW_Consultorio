@@ -12,6 +12,8 @@ namespace SW_Consultorio.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class DB_SWCDEntities : DbContext
     {
@@ -26,6 +28,7 @@ namespace SW_Consultorio.Models
         }
     
         public virtual DbSet<Cita> Cita { get; set; }
+        public virtual DbSet<Empleado> Empleado { get; set; }
         public virtual DbSet<Estado_Cita> Estado_Cita { get; set; }
         public virtual DbSet<Medico> Medico { get; set; }
         public virtual DbSet<Paciente> Paciente { get; set; }
@@ -33,5 +36,60 @@ namespace SW_Consultorio.Models
         public virtual DbSet<Receta> Receta { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
+    
+        public virtual int SP_CitaAdmision(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_CitaAdmision", idParameter);
+        }
+    
+        public virtual int SP_CitaAtencion(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_CitaAtencion", idParameter);
+        }
+    
+        public virtual int SP_CitaAtendido(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_CitaAtendido", idParameter);
+        }
+    
+        public virtual int SP_CitaLlamado(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_CitaLlamado", idParameter);
+        }
+    
+        public virtual ObjectResult<SP_CitaMedicos_Result> SP_CitaMedicos(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CitaMedicos_Result>("SP_CitaMedicos", idParameter);
+        }
+    
+        public virtual ObjectResult<SP_ObtenerCitados_Result> SP_ObtenerCitados()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ObtenerCitados_Result>("SP_ObtenerCitados");
+        }
+    
+        public virtual ObjectResult<SP_ObtenerHistoria_Result> SP_ObtenerHistoria()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ObtenerHistoria_Result>("SP_ObtenerHistoria");
+        }
     }
 }

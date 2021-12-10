@@ -130,6 +130,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdmisionController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -143,6 +144,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CitaCalendario.cs" />
+    <Compile Include="Models\Empleado.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Estado_Cita.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -171,6 +175,15 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Receta.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_CitaMedicos_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_ObtenerCitados_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_ObtenerHistoria_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagrams.cs">
@@ -248,6 +261,7 @@
     <Content Include="vendors\bootstrap\dist\css\bootstrap-reboot.min.css" />
     <Content Include="vendors\bootstrap\dist\css\bootstrap.css" />
     <Content Include="vendors\bootstrap\dist\css\bootstrap.min.css" />
+    <Content Include="vendors\bootstrap\dist\js\bootstrap-datetimepicker.min.js" />
     <Content Include="vendors\bootstrap\dist\js\bootstrap.bundle.js" />
     <Content Include="vendors\bootstrap\dist\js\bootstrap.bundle.min.js" />
     <Content Include="vendors\bootstrap\dist\js\bootstrap.js" />
@@ -926,6 +940,8 @@
     <Content Include="vendors\iCheck\.bower.json" />
     <Content Include="vendors\iCheck\bower.json" />
     <Content Include="vendors\iCheck\icheck.jquery.json" />
+    <Content Include="Views\Admision\Index.cshtml" />
+    <Content Include="Views\Doctor\ObtenerCitas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

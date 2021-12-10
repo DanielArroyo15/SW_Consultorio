@@ -12,24 +12,12 @@ namespace SW_Consultorio.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Medico
+    public partial class Empleado
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Medico()
-        {
-            this.Cita = new HashSet<Cita>();
-        }
-    
-        public int MedicoID { get; set; }
+        public int EmpleadoID { get; set; }
+        public string Dni { get; set; }
         public string Nombre { get; set; }
-        public string Apellido { get; set; }
         public string Telefono { get; set; }
         public string Email { get; set; }
-        public string Dni { get; set; }
-        public int UsuarioID { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Cita> Cita { get; set; }
-        public virtual Usuario Usuario { get; set; }
     }
 }

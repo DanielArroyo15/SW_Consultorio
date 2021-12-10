@@ -9,7 +9,7 @@
     <Property Name="InicioAtencion" Type="Time" Precision="7" />
     <Property Name="FinAtencion" Type="Time" Precision="7" />
     <Property Name="Obervacion" Type="String" MaxLength="1000" FixedLength="true" Unicode="true" />
-    <Property Name="MedicoID" Type="Int32" />
+    <Property Name="MedicoID" Type="Int32" Nullable="false" />
     <Property Name="PacienteID" Type="Int32" Nullable="false" />
     <Property Name="UsusarioID" Type="Int32" Nullable="false" />
     <Property Name="EstadoCitaID" Type="Int32" Nullable="false" />
@@ -18,6 +18,16 @@
     <NavigationProperty Name="Paciente" Relationship="Self.FK_Cita_Paciente" FromRole="Cita" ToRole="Paciente" />
     <NavigationProperty Name="Usuario" Relationship="Self.FK_Cita_Usuario" FromRole="Cita" ToRole="Usuario" />
     <NavigationProperty Name="Receta" Relationship="Self.FK_Receta_Cita" FromRole="Cita" ToRole="Receta" />
+  </EntityType>
+  <EntityType Name="Empleado">
+    <Key>
+      <PropertyRef Name="EmpleadoID" />
+    </Key>
+    <Property Name="EmpleadoID" Type="Int32" Nullable="false" />
+    <Property Name="Dni" Type="String" MaxLength="8" FixedLength="true" Unicode="true" />
+    <Property Name="Nombre" Type="String" MaxLength="300" FixedLength="true" Unicode="true" />
+    <Property Name="Telefono" Type="String" MaxLength="9" FixedLength="true" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="200" FixedLength="true" Unicode="true" />
   </EntityType>
   <EntityType Name="Estado_Cita">
     <Key>
@@ -31,13 +41,15 @@
     <Key>
       <PropertyRef Name="MedicoID" />
     </Key>
-    <Property Name="MedicoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MedicoID" Type="Int32" Nullable="false" />
     <Property Name="Nombre" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
     <Property Name="Apellido" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
     <Property Name="Telefono" Type="String" MaxLength="9" FixedLength="true" Unicode="true" />
     <Property Name="Email" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
     <Property Name="Dni" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="UsuarioID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Cita" Relationship="Self.FK_Cita_Medico" FromRole="Medico" ToRole="Cita" />
+    <NavigationProperty Name="Usuario" Relationship="Self.FK_Medico_Usuario" FromRole="Medico" ToRole="Usuario" />
   </EntityType>
   <EntityType Name="Paciente">
     <Key>
@@ -90,11 +102,12 @@
     </Key>
     <Property Name="UsarioID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="PerfilID" Type="Int32" Nullable="false" />
-    <Property Name="Usuario1" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
-    <Property Name="Clave" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-    <Property Name="Estado" Type="Boolean" />
-    <Property Name="Nombre" Type="String" MaxLength="80" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Usuario1" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Clave" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="200" FixedLength="true" Unicode="true" />
     <NavigationProperty Name="Cita" Relationship="Self.FK_Cita_Usuario" FromRole="Usuario" ToRole="Cita" />
+    <NavigationProperty Name="Medico" Relationship="Self.FK_Medico_Usuario" FromRole="Usuario" ToRole="Medico" />
     <NavigationProperty Name="Perfil" Relationship="Self.FK_Usuario_Perfil" FromRole="Usuario" ToRole="Perfil" />
   </EntityType>
   <Association Name="FK_Cita_Estado_Cita">
@@ -110,7 +123,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Cita_Medico">
-    <End Role="Medico" Type="Self.Medico" Multiplicity="0..1" />
+    <End Role="Medico" Type="Self.Medico" Multiplicity="1" />
     <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Medico">
@@ -157,6 +170,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Medico_Usuario">
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+    <End Role="Medico" Type="Self.Medico" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="UsarioID" />
+      </Principal>
+      <Dependent Role="Medico">
+        <PropertyRef Name="UsuarioID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Usuario_Perfil">
     <End Role="Perfil" Type="Self.Perfil" Multiplicity="1" />
     <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
@@ -171,6 +196,7 @@
   </Association>
   <EntityContainer Name="DB_SWCDEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Cita" EntityType="Self.Cita" />
+    <EntitySet Name="Empleado" EntityType="Self.Empleado" />
     <EntitySet Name="Estado_Cita" EntityType="Self.Estado_Cita" />
     <EntitySet Name="Medico" EntityType="Self.Medico" />
     <EntitySet Name="Paciente" EntityType="Self.Paciente" />
@@ -198,9 +224,59 @@
       <End Role="Cita" EntitySet="Cita" />
       <End Role="Receta" EntitySet="Receta" />
     </AssociationSet>
+    <AssociationSet Name="FK_Medico_Usuario" Association="Self.FK_Medico_Usuario">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="Medico" EntitySet="Medico" />
+    </AssociationSet>
     <AssociationSet Name="FK_Usuario_Perfil" Association="Self.FK_Usuario_Perfil">
       <End Role="Perfil" EntitySet="Perfil" />
       <End Role="Usuario" EntitySet="Usuario" />
     </AssociationSet>
+    <FunctionImport Name="SP_CitaAdmision">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_CitaAtencion">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_CitaAtendido">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_CitaLlamado">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_CitaMedicos" ReturnType="Collection(DB_SWCDModel.SP_CitaMedicos_Result)">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_ObtenerCitados" ReturnType="Collection(DB_SWCDModel.SP_ObtenerCitados_Result)" />
+    <FunctionImport Name="SP_ObtenerHistoria" ReturnType="Collection(DB_SWCDModel.SP_ObtenerHistoria_Result)" />
   </EntityContainer>
+  <ComplexType Name="SP_CitaMedicos_Result">
+    <Property Type="DateTime" Name="FechaAtencion" Nullable="true" />
+    <Property Type="Time" Name="InicioAtencion" Nullable="true" />
+    <Property Type="String" Name="Obervacion" Nullable="true" MaxLength="1000" />
+    <Property Type="String" Name="Dni" Nullable="true" MaxLength="8" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Apellido" Nullable="false" MaxLength="200" />
+    <Property Type="Int32" Name="MedicoID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="SP_ObtenerCitados_Result">
+    <Property Type="Int32" Name="CitaID" Nullable="false" />
+    <Property Type="Int32" Name="EstadoCitaID" Nullable="false" />
+    <Property Type="DateTime" Name="FechaAtencion" Nullable="true" />
+    <Property Type="Time" Name="InicioAtencion" Nullable="true" />
+    <Property Type="String" Name="Obervacion" Nullable="true" MaxLength="1000" />
+    <Property Type="String" Name="Dni" Nullable="true" MaxLength="8" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Apellido" Nullable="false" MaxLength="200" />
+  </ComplexType>
+  <ComplexType Name="SP_ObtenerHistoria_Result">
+    <Property Type="Int32" Name="CitaID" Nullable="false" />
+    <Property Type="Int32" Name="EstadoCitaID" Nullable="false" />
+    <Property Type="DateTime" Name="FechaAtencion" Nullable="true" />
+    <Property Type="Time" Name="InicioAtencion" Nullable="true" />
+    <Property Type="String" Name="Obervacion" Nullable="true" MaxLength="1000" />
+    <Property Type="String" Name="Dni" Nullable="true" MaxLength="8" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Apellido" Nullable="false" MaxLength="200" />
+  </ComplexType>
 </Schema>

@@ -201,9 +201,9 @@
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     if (data.resultado) {
+                        $('#FormModal').modal('hide');
                         location.reload();
                         alertaok();
-                        $('#FormModal').modal('hide');
                     } else {
                         alertanot();
                     }

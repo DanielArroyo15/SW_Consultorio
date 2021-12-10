@@ -78,5 +78,10 @@ namespace SW_Consultorio.Controllers
 
             return Json(new { resultado = respuesta }, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult ObtenerCitas(int id)
+        {
+            return View(db.SP_CitaMedicos(id).ToList());
+        }
     }
 }

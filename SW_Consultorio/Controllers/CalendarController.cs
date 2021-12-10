@@ -91,5 +91,28 @@ namespace SW_Consultorio.Controllers
             }
             return Json(new { resultado = respuesta }, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult Eliminar(int id)
+        {
+            bool respuesta = true;
+
+            try
+            {
+                if(id != 0)
+                {
+                    Cita ocita = (from c in db.Cita
+                                  where id == c.CitaID
+                                  select c).FirstOrDefault();
+
+                    db.Cita.Remove(ocita);
+                    db.SaveChanges();
+                }
+            }
+            catch
+            {
+                respuesta = false;
+            }
+            return Json(new { resultado = respuesta }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

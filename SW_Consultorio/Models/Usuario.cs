@@ -18,17 +18,20 @@ namespace SW_Consultorio.Models
         public Usuario()
         {
             this.Cita = new HashSet<Cita>();
+            this.Medico = new HashSet<Medico>();
         }
     
         public int UsarioID { get; set; }
         public int PerfilID { get; set; }
         public string Usuario1 { get; set; }
         public string Clave { get; set; }
-        public Nullable<bool> Estado { get; set; }
+        public bool Estado { get; set; }
         public string Nombre { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cita> Cita { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Medico> Medico { get; set; }
         public virtual Perfil Perfil { get; set; }
     }
 }

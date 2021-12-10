@@ -16,6 +16,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Empleado">
+      <EntityTypeMapping TypeName="DB_SWCDModel.Empleado">
+        <MappingFragment StoreEntitySet="Empleado">
+          <ScalarProperty Name="EmpleadoID" ColumnName="EmpleadoID" />
+          <ScalarProperty Name="Dni" ColumnName="Dni" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Estado_Cita">
       <EntityTypeMapping TypeName="DB_SWCDModel.Estado_Cita">
         <MappingFragment StoreEntitySet="Estado_Cita">
@@ -33,6 +44,7 @@
           <ScalarProperty Name="Telefono" ColumnName="Telefono" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Dni" ColumnName="Dni" />
+          <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -94,5 +106,50 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_CitaAdmision" FunctionName="DB_SWCDModel.Store.SP_CitaAdmision" />
+    <FunctionImportMapping FunctionImportName="SP_CitaAtencion" FunctionName="DB_SWCDModel.Store.SP_CitaAtencion" />
+    <FunctionImportMapping FunctionImportName="SP_CitaAtendido" FunctionName="DB_SWCDModel.Store.SP_CitaAtendido" />
+    <FunctionImportMapping FunctionImportName="SP_CitaLlamado" FunctionName="DB_SWCDModel.Store.SP_CitaLlamado" />
+    <FunctionImportMapping FunctionImportName="SP_CitaMedicos" FunctionName="DB_SWCDModel.Store.SP_CitaMedicos">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DB_SWCDModel.SP_CitaMedicos_Result">
+          <ScalarProperty Name="FechaAtencion" ColumnName="FechaAtencion" />
+          <ScalarProperty Name="InicioAtencion" ColumnName="InicioAtencion" />
+          <ScalarProperty Name="Obervacion" ColumnName="Obervacion" />
+          <ScalarProperty Name="Dni" ColumnName="Dni" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+          <ScalarProperty Name="MedicoID" ColumnName="MedicoID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_ObtenerCitados" FunctionName="DB_SWCDModel.Store.SP_ObtenerCitados">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DB_SWCDModel.SP_ObtenerCitados_Result">
+          <ScalarProperty Name="CitaID" ColumnName="CitaID" />
+          <ScalarProperty Name="EstadoCitaID" ColumnName="EstadoCitaID" />
+          <ScalarProperty Name="FechaAtencion" ColumnName="FechaAtencion" />
+          <ScalarProperty Name="InicioAtencion" ColumnName="InicioAtencion" />
+          <ScalarProperty Name="Obervacion" ColumnName="Obervacion" />
+          <ScalarProperty Name="Dni" ColumnName="Dni" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_ObtenerHistoria" FunctionName="DB_SWCDModel.Store.SP_ObtenerHistoria">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DB_SWCDModel.SP_ObtenerHistoria_Result">
+          <ScalarProperty Name="CitaID" ColumnName="CitaID" />
+          <ScalarProperty Name="EstadoCitaID" ColumnName="EstadoCitaID" />
+          <ScalarProperty Name="FechaAtencion" ColumnName="FechaAtencion" />
+          <ScalarProperty Name="InicioAtencion" ColumnName="InicioAtencion" />
+          <ScalarProperty Name="Obervacion" ColumnName="Obervacion" />
+          <ScalarProperty Name="Dni" ColumnName="Dni" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>
