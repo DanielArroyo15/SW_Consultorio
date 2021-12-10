@@ -83,5 +83,25 @@ namespace SW_Consultorio.Controllers
         {
             return View(db.SP_CitaMedicos(id).ToList());
         }
+
+        public JsonResult ObtienePaciente(int id)
+        {
+            Paciente opaciente = new Paciente();
+
+            try
+            {
+                if(id!=0)
+                {
+                    opaciente = (from p in db.Paciente
+                                 where id == p.PacienteID
+                                 select p).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Error" + ex;
+            }
+            return Json(new { opaciente }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

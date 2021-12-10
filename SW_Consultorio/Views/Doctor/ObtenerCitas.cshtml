@@ -65,7 +65,7 @@
                                             @Html.DisplayFor(modelItem => item.InicioAtencion)
                                         </td>
                                         <td style="text-align:center">
-                                            <button class="btn btn-success" type="button" onclick="abrirModal()"><span class="fa fa-microphone"> Llamar</span></button>
+                                            <button class="btn btn-success" type="button" onclick="abrirModal(@Html.DisplayFor(modelItem => item.PacienteID))"><span class="fa fa-microphone"> Llamar</span></button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -123,16 +123,16 @@
         </div>
     </div>
 </div>
-
-
-
 <!--Fin Modal Emergente-->
+
+
 <!--Script-->
 <script>
     function abrirModal($pacienteid) {
+        consola.log($pacienteid);
            if ($pacienteid != 0) {
                 jQuery.ajax({
-                    url: "@Url.Action("Obtiene", "Pacientes")" + "?pacienteid=" + $pacienteid,
+                    url: "@Url.Action("ObtienePaciente", "Doctor")" + "?pacienteid=" + $pacienteid,
                     type: "GET",
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
@@ -140,13 +140,8 @@
 
                         if (data != null) {
                             $("#txtdni").val(data.Dni);
-
-
                             $("#txtnombre").val(data.Nombre);
-                            $("#txtapellido").val(data.Apellido);
-                            $("#txtdireccion").val(data.Direccion);
-                            $("#txttelefono").val(data.Telefono);
-                            $("#txtemail").val(data.Email);
+                            $("#txtapellido").val(data.Apellido);                            
                         }
                     }
                 });

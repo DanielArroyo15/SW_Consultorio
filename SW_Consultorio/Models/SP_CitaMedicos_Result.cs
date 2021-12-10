@@ -20,5 +20,6 @@ namespace SW_Consultorio.Models
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public int MedicoID { get; set; }
+        public int PacienteID { get; set; }
     }
 }
