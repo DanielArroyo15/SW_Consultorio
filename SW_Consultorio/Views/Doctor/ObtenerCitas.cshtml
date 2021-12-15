@@ -65,7 +65,7 @@
                                             @Html.DisplayFor(modelItem => item.InicioAtencion)
                                         </td>
                                         <td style="text-align:center">
-                                            <button class="btn btn-success" type="button" onclick="abrirModal(@Html.DisplayFor(modelItem => item.PacienteID))"><span class="fa fa-microphone"> Llamar</span></button>
+                                            <button class="btn btn-success" type="button" onclick="abrirModal(@item.CitaID)"><span class="fa fa-microphone"> Llamar</span></button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -129,10 +129,10 @@
 <!--Script-->
 <script>
     function abrirModal($pacienteid) {
-        consola.log($pacienteid);
-           if ($pacienteid != 0) {
-                jQuery.ajax({
-                    url: "@Url.Action("ObtienePaciente", "Doctor")" + "?pacienteid=" + $pacienteid,
+        console.log($pacienteid);
+        if ($pacienteid != 0) {
+                @*jQuery.ajax({
+                    url: "@Url.Action("ObtienePaciente", "Doctor")" + "/" + $pacienteid,
                     type: "GET",
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
@@ -141,11 +141,29 @@
                         if (data != null) {
                             $("#txtdni").val(data.Dni);
                             $("#txtnombre").val(data.Nombre);
-                            $("#txtapellido").val(data.Apellido);                            
+                            $("#txtapellido").val(data.Apellido);
                         }
                     }
-                });
-           }
+                });*@
+
+            jQuery.ajax({
+                url: '@Url.Action("CambiaCitaLlamado", "Doctor")' + '/' + $pacienteid,
+                type: 'GET',
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.resultado) {
+                        Swal.fire(
+                            'Llamado!',
+                            'Paciente llamado',
+                            'success'
+                        )
+                    } else {
+                        alertanot();
+                    }
+                }
+            });
+        }
     }
 
 

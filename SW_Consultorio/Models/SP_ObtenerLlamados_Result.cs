@@ -10,20 +10,16 @@
 namespace SW_Consultorio.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Estado_Cita
+    public partial class SP_ObtenerLlamados_Result
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Estado_Cita()
-        {
-            this.Cita = new HashSet<Cita>();
-        }
-    
+        public int CitaID { get; set; }
         public int EstadoCitaID { get; set; }
-        public string Descripcion { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Cita> Cita { get; set; }
+        public Nullable<System.DateTime> FechaAtencion { get; set; }
+        public Nullable<System.TimeSpan> InicioAtencion { get; set; }
+        public string Obervacion { get; set; }
+        public string Dni { get; set; }
+        public string Nombre { get; set; }
+        public string Apellido { get; set; }
     }
 }

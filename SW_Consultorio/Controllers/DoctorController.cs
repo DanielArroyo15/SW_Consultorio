@@ -86,7 +86,7 @@ namespace SW_Consultorio.Controllers
 
         public JsonResult ObtienePaciente(int id)
         {
-            Paciente opaciente = new Paciente();
+            Paciente opaciente;
 
             try
             {
@@ -96,12 +96,38 @@ namespace SW_Consultorio.Controllers
                                  where id == p.PacienteID
                                  select p).FirstOrDefault();
                 }
+                else
+                {
+                    opaciente = new Paciente();
+                }
             }
             catch (Exception ex)
             {
+                opaciente = new Paciente();
                 ViewBag.Error = "Error" + ex;
             }
-            return Json(new { opaciente }, JsonRequestBehavior.AllowGet);
+            return Json( opaciente, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult CambiaCitaLlamado(int id)
+        {
+            bool respuesta = true;
+
+
+            try
+            {
+                if (id != 0)
+                {
+                    db.SP_CitaLlamado(id);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                respuesta = false;
+            }
+
+            return Json(new { resultado = respuesta }, JsonRequestBehavior.AllowGet);
         }
     }
 }
