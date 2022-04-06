@@ -35,6 +35,11 @@
     <link href="~/Content/css/custom.min.css" rel="stylesheet" />
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .llamado {
+            background-color:yellow;
+        }
+    </style>
 </head>
 <body>
     <div class="col-md-12 col-sm-12 ">
@@ -70,31 +75,60 @@
 
                                 @foreach (var item in Model)
                                 {
-                                    <tbody id="tbodyData">
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Dni)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Nombre)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Apellido)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.FechaAtencion)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Obervacion)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.InicioAtencion)
-                                            </td>
-                                            <td style="text-align:center">
-                                                <button class="btn btn-success" type="button" onclick="abrirModal(@item.CitaID)"><span class="fa fa-microphone"> Atendido</span></button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                            <tbody id="tbodyData">
+                                @if (item.Dni?.Trim() == "72513712")
+                                {
+                                    <tr class="llamado">
+                                        <td class="llamado">
+                                            @Html.DisplayFor(modelItem => item.Dni)
+                                        </td>
+                                        <td class="llamado">
+                                            @Html.DisplayFor(modelItem => item.Nombre)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Apellido)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FechaAtencion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Obervacion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.InicioAtencion)
+                                        </td>
+                                        <td style="text-align:center">
+                                            <button class="btn btn-success" type="button" onclick="abrirModal(@item.CitaID)"><span class="fa fa-microphone"> Atendido</span></button>
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Dni)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Nombre)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Apellido)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FechaAtencion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Obervacion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.InicioAtencion)
+                                        </td>
+                                        <td style="text-align:center">
+                                            <button class="btn btn-success" type="button" onclick="abrirModal(@item.CitaID)"><span class="fa fa-microphone"> Atendido</span></button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
                                 }
                             </table>
                         </div>
