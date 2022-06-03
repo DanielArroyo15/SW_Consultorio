@@ -20,7 +20,6 @@ namespace SW_Consultorio.Controllers
         {
             bool respuesta = true;
 
-
             try
             {
                 if (id != 0)

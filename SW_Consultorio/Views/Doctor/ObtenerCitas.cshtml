@@ -31,13 +31,10 @@
                     <div class="card-box table-responsive">
                         <table id="datatable" class="table table-striped table-bordered" style="width:100%">
                             <thead>
-                                <tr>
-                                    <th>DNI</th>
+                                <tr>                                    
                                     <th>Nombre</th>
-                                    <th>Apellido</th>
-                                    <th>Fecha</th>
-                                    <th>Observacion</th>
-                                    <th>Hora Inicio</th>
+                                    <th>Apellido</th>                                   
+                                    <th>Observacion</th>                                   
                                     <th> </th>
                                 </tr>
                             </thead>
@@ -45,25 +42,16 @@
                             @foreach (var item in Model)
                             {
                                 <tbody id="tbodyData">
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Dni)
-                                        </td>
+                                    <tr>                                        
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Nombre)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Apellido)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.FechaAtencion)
-                                        </td>
+                                        </td>                                        
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Obervacion)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.InicioAtencion)
-                                        </td>
+                                        </td>                                      
                                         <td style="text-align:center">
                                             <button class="btn btn-success" type="button" onclick="abrirModal(@item.CitaID)"><span class="fa fa-microphone"> Llamar</span></button>
                                         </td>
@@ -130,22 +118,7 @@
 <script>
     function abrirModal($pacienteid) {
         console.log($pacienteid);
-        if ($pacienteid != 0) {
-                @*jQuery.ajax({
-                    url: "@Url.Action("ObtienePaciente", "Doctor")" + "/" + $pacienteid,
-                    type: "GET",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-
-                        if (data != null) {
-                            $("#txtdni").val(data.Dni);
-                            $("#txtnombre").val(data.Nombre);
-                            $("#txtapellido").val(data.Apellido);
-                        }
-                    }
-                });*@
-
+        if ($pacienteid != 0) {  
             jQuery.ajax({
                 url: '@Url.Action("CambiaCitaLlamado", "Doctor")' + '/' + $pacienteid,
                 type: 'GET',
@@ -155,8 +128,8 @@
                     if (data.resultado) {
                         Swal.fire(
                             'Llamado!',
-                            'Paciente llamado',
-                            'success'
+                            'Paciente llamado',                            
+                            'success',
                         )
                     } else {
                         alertanot();
@@ -165,7 +138,5 @@
             });
         }
     }
-
-
 </script>
 <!--Script-->

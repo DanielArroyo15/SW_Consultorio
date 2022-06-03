@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DB_SWCDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="DB_SWCDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Cita">
           <Key>
             <PropertyRef Name="CitaID" />
@@ -36,17 +36,30 @@
           <Property Name="EstadoCitaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Descripcion" Type="nchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Historia_Clinica">
+          <Key>
+            <PropertyRef Name="HistoriaClinicaID" />
+          </Key>
+          <Property Name="HistoriaClinicaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Dni" Type="nchar" MaxLength="8" Nullable="false" />
+          <Property Name="Nombre" Type="nchar" MaxLength="200" Nullable="false" />
+          <Property Name="Apellido" Type="nchar" MaxLength="200" Nullable="false" />
+          <Property Name="Genero" Type="bit" />
+          <Property Name="FechaNacimiento" Type="date" />
+          <Property Name="TratamientoID" Type="int" />
+          <Property Name="CitaID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Medico">
           <Key>
             <PropertyRef Name="MedicoID" />
           </Key>
-          <Property Name="MedicoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MedicoID" Type="int" Nullable="false" />
           <Property Name="Nombre" Type="nchar" MaxLength="30" Nullable="false" />
           <Property Name="Apellido" Type="nchar" MaxLength="30" Nullable="false" />
           <Property Name="Telefono" Type="nchar" MaxLength="9" />
           <Property Name="Email" Type="nchar" MaxLength="50" Nullable="false" />
           <Property Name="Dni" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="UsuarioID" Type="int" Nullable="false" />
+          <Property Name="UsuarioID" Type="int" />
         </EntityType>
         <EntityType Name="Paciente">
           <Key>
@@ -80,15 +93,14 @@
           <Property Name="Frecuencia" Type="nchar" MaxLength="100" Nullable="false" />
           <Property Name="Duracion" Type="nchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
+        <EntityType Name="Tratamiento">
           <Key>
-            <PropertyRef Name="diagram_id" />
+            <PropertyRef Name="TratamientoID" />
           </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
+          <Property Name="TratamientoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nchar" MaxLength="200" Nullable="false" />
+          <Property Name="Precio" Type="float" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
@@ -96,10 +108,10 @@
           </Key>
           <Property Name="UsarioID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PerfilID" Type="int" Nullable="false" />
-          <Property Name="Usuario" Type="nchar" MaxLength="30" />
-          <Property Name="Clave" Type="nchar" MaxLength="10" />
-          <Property Name="Estado" Type="bit" />
-          <Property Name="Nombre" Type="nchar" MaxLength="80" Nullable="false" />
+          <Property Name="Usuario" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="Clave" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="Nombre" Type="nchar" MaxLength="200" />
         </EntityType>
         <Association Name="FK_Cita_Estado_Cita">
           <End Role="Estado_Cita" Type="Self.Estado_Cita" Multiplicity="1" />
@@ -149,8 +161,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Historia_Clinica_Cita">
+          <End Role="Cita" Type="Self.Cita" Multiplicity="1" />
+          <End Role="Historia_Clinica" Type="Self.Historia_Clinica" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cita">
+              <PropertyRef Name="CitaID" />
+            </Principal>
+            <Dependent Role="Historia_Clinica">
+              <PropertyRef Name="CitaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Historia_Clinica_Tratamiento">
+          <End Role="Tratamiento" Type="Self.Tratamiento" Multiplicity="0..1" />
+          <End Role="Historia_Clinica" Type="Self.Historia_Clinica" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tratamiento">
+              <PropertyRef Name="TratamientoID" />
+            </Principal>
+            <Dependent Role="Historia_Clinica">
+              <PropertyRef Name="TratamientoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Medico_Usuario">
-          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
           <End Role="Medico" Type="Self.Medico" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuario">
@@ -173,18 +209,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Usuario_Perfil">
-          <End Role="Perfil" Type="Self.Perfil" Multiplicity="1" />
-          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Perfil">
-              <PropertyRef Name="PerfilID" />
-            </Principal>
-            <Dependent Role="Usuario">
-              <PropertyRef Name="PerfilID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Function Name="SP_CitaAdmision" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
@@ -200,18 +224,24 @@
         <Function Name="SP_CitaMedicos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_DatosPaciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_ObtenerCitados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_ObtenerHistoria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="SP_ObtenerLlamados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_ObtenerLlamados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="DB_SWCDModelStoreContainer">
           <EntitySet Name="Cita" EntityType="Self.Cita" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estado_Cita" EntityType="Self.Estado_Cita" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Historia_Clinica" EntityType="Self.Historia_Clinica" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Medico" EntityType="Self.Medico" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Paciente" EntityType="Self.Paciente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Perfil" EntityType="Self.Perfil" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Receta" EntityType="Self.Receta" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tratamiento" EntityType="Self.Tratamiento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Cita_Estado_Cita" Association="Self.FK_Cita_Estado_Cita">
             <End Role="Estado_Cita" EntitySet="Estado_Cita" />
@@ -229,6 +259,14 @@
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Cita" EntitySet="Cita" />
           </AssociationSet>
+          <AssociationSet Name="FK_Historia_Clinica_Cita" Association="Self.FK_Historia_Clinica_Cita">
+            <End Role="Cita" EntitySet="Cita" />
+            <End Role="Historia_Clinica" EntitySet="Historia_Clinica" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Historia_Clinica_Tratamiento" Association="Self.FK_Historia_Clinica_Tratamiento">
+            <End Role="Tratamiento" EntitySet="Tratamiento" />
+            <End Role="Historia_Clinica" EntitySet="Historia_Clinica" />
+          </AssociationSet>
           <AssociationSet Name="FK_Medico_Usuario" Association="Self.FK_Medico_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Medico" EntitySet="Medico" />
@@ -237,12 +275,9 @@
             <End Role="Cita" EntitySet="Cita" />
             <End Role="Receta" EntitySet="Receta" />
           </AssociationSet>
-          <AssociationSet Name="FK_Usuario_Perfil" Association="Self.FK_Usuario_Perfil">
-            <End Role="Perfil" EntitySet="Perfil" />
-            <End Role="Usuario" EntitySet="Usuario" />
-          </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DB_SWCDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -263,6 +298,7 @@
           <NavigationProperty Name="Medico" Relationship="Self.FK_Cita_Medico" FromRole="Cita" ToRole="Medico" />
           <NavigationProperty Name="Paciente" Relationship="Self.FK_Cita_Paciente" FromRole="Cita" ToRole="Paciente" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Cita_Usuario" FromRole="Cita" ToRole="Usuario" />
+          <NavigationProperty Name="Historia_Clinica" Relationship="Self.FK_Historia_Clinica_Cita" FromRole="Cita" ToRole="Historia_Clinica" />
           <NavigationProperty Name="Receta" Relationship="Self.FK_Receta_Cita" FromRole="Cita" ToRole="Receta" />
         </EntityType>
         <EntityType Name="Empleado">
@@ -283,6 +319,21 @@
           <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Cita" Relationship="Self.FK_Cita_Estado_Cita" FromRole="Estado_Cita" ToRole="Cita" />
         </EntityType>
+        <EntityType Name="Historia_Clinica">
+          <Key>
+            <PropertyRef Name="HistoriaClinicaID" />
+          </Key>
+          <Property Name="HistoriaClinicaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Dni" Type="String" MaxLength="8" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="200" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="200" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Genero" Type="Boolean" />
+          <Property Name="FechaNacimiento" Type="DateTime" Precision="0" />
+          <Property Name="TratamientoID" Type="Int32" />
+          <Property Name="CitaID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cita" Relationship="Self.FK_Historia_Clinica_Cita" FromRole="Historia_Clinica" ToRole="Cita" />
+          <NavigationProperty Name="Tratamiento" Relationship="Self.FK_Historia_Clinica_Tratamiento" FromRole="Historia_Clinica" ToRole="Tratamiento" />
+        </EntityType>
         <EntityType Name="Medico">
           <Key>
             <PropertyRef Name="MedicoID" />
@@ -293,7 +344,7 @@
           <Property Name="Telefono" Type="String" MaxLength="9" FixedLength="true" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Dni" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="UsuarioID" Type="Int32" Nullable="false" />
+          <Property Name="UsuarioID" Type="Int32" />
           <NavigationProperty Name="Cita" Relationship="Self.FK_Cita_Medico" FromRole="Medico" ToRole="Cita" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Medico_Usuario" FromRole="Medico" ToRole="Usuario" />
         </EntityType>
@@ -317,7 +368,6 @@
           <Property Name="PerfilID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Perfil" FromRole="Perfil" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Receta">
           <Key>
@@ -332,15 +382,15 @@
           <Property Name="Duracion" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Cita" Relationship="Self.FK_Receta_Cita" FromRole="Receta" ToRole="Cita" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
+        <EntityType Name="Tratamiento">
           <Key>
-            <PropertyRef Name="diagram_id" />
+            <PropertyRef Name="TratamientoID" />
           </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="TratamientoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="200" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Precio" Type="Double" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Historia_Clinica" Relationship="Self.FK_Historia_Clinica_Tratamiento" FromRole="Tratamiento" ToRole="Historia_Clinica" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
@@ -348,13 +398,12 @@
           </Key>
           <Property Name="UsarioID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PerfilID" Type="Int32" Nullable="false" />
-          <Property Name="Usuario1" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
-          <Property Name="Clave" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Estado" Type="Boolean" />
-          <Property Name="Nombre" Type="String" MaxLength="80" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Usuario1" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Clave" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="200" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Cita" Relationship="Self.FK_Cita_Usuario" FromRole="Usuario" ToRole="Cita" />
           <NavigationProperty Name="Medico" Relationship="Self.FK_Medico_Usuario" FromRole="Usuario" ToRole="Medico" />
-          <NavigationProperty Name="Perfil" Relationship="Self.FK_Usuario_Perfil" FromRole="Usuario" ToRole="Perfil" />
         </EntityType>
         <Association Name="FK_Cita_Estado_Cita">
           <End Role="Estado_Cita" Type="Self.Estado_Cita" Multiplicity="1" />
@@ -404,6 +453,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Historia_Clinica_Cita">
+          <End Role="Cita" Type="Self.Cita" Multiplicity="1" />
+          <End Role="Historia_Clinica" Type="Self.Historia_Clinica" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cita">
+              <PropertyRef Name="CitaID" />
+            </Principal>
+            <Dependent Role="Historia_Clinica">
+              <PropertyRef Name="CitaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Receta_Cita">
           <End Role="Cita" Type="Self.Cita" Multiplicity="1" />
           <End Role="Receta" Type="Self.Receta" Multiplicity="*" />
@@ -416,8 +477,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Historia_Clinica_Tratamiento">
+          <End Role="Tratamiento" Type="Self.Tratamiento" Multiplicity="0..1" />
+          <End Role="Historia_Clinica" Type="Self.Historia_Clinica" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tratamiento">
+              <PropertyRef Name="TratamientoID" />
+            </Principal>
+            <Dependent Role="Historia_Clinica">
+              <PropertyRef Name="TratamientoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Medico_Usuario">
-          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
           <End Role="Medico" Type="Self.Medico" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuario">
@@ -428,27 +501,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Usuario_Perfil">
-          <End Role="Perfil" Type="Self.Perfil" Multiplicity="1" />
-          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Perfil">
-              <PropertyRef Name="PerfilID" />
-            </Principal>
-            <Dependent Role="Usuario">
-              <PropertyRef Name="PerfilID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="DB_SWCDEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Cita" EntityType="Self.Cita" />
           <EntitySet Name="Empleado" EntityType="Self.Empleado" />
           <EntitySet Name="Estado_Cita" EntityType="Self.Estado_Cita" />
+          <EntitySet Name="Historia_Clinica" EntityType="Self.Historia_Clinica" />
           <EntitySet Name="Medico" EntityType="Self.Medico" />
           <EntitySet Name="Paciente" EntityType="Self.Paciente" />
           <EntitySet Name="Perfil" EntityType="Self.Perfil" />
           <EntitySet Name="Receta" EntityType="Self.Receta" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Tratamiento" EntityType="Self.Tratamiento" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" />
           <AssociationSet Name="FK_Cita_Estado_Cita" Association="Self.FK_Cita_Estado_Cita">
             <End Role="Estado_Cita" EntitySet="Estado_Cita" />
@@ -466,38 +528,48 @@
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Cita" EntitySet="Cita" />
           </AssociationSet>
+          <AssociationSet Name="FK_Historia_Clinica_Cita" Association="Self.FK_Historia_Clinica_Cita">
+            <End Role="Cita" EntitySet="Cita" />
+            <End Role="Historia_Clinica" EntitySet="Historia_Clinica" />
+          </AssociationSet>
           <AssociationSet Name="FK_Receta_Cita" Association="Self.FK_Receta_Cita">
             <End Role="Cita" EntitySet="Cita" />
             <End Role="Receta" EntitySet="Receta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Historia_Clinica_Tratamiento" Association="Self.FK_Historia_Clinica_Tratamiento">
+            <End Role="Tratamiento" EntitySet="Tratamiento" />
+            <End Role="Historia_Clinica" EntitySet="Historia_Clinica" />
           </AssociationSet>
           <AssociationSet Name="FK_Medico_Usuario" Association="Self.FK_Medico_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Medico" EntitySet="Medico" />
           </AssociationSet>
-          <AssociationSet Name="FK_Usuario_Perfil" Association="Self.FK_Usuario_Perfil">
-            <End Role="Perfil" EntitySet="Perfil" />
-            <End Role="Usuario" EntitySet="Usuario" />
-          </AssociationSet>
           <FunctionImport Name="SP_CitaAdmision">
-          <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_CitaAtencion">
-          <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_CitaAtendido">
-          <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_CitaLlamado">
-          <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_CitaMedicos" ReturnType="Collection(DB_SWCDModel.SP_CitaMedicos_Result)">
-          <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_DatosPaciente" ReturnType="Collection(DB_SWCDModel.SP_DatosPaciente_Result)">
+            <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_ObtenerCitados" ReturnType="Collection(DB_SWCDModel.SP_ObtenerCitados_Result)" />
           <FunctionImport Name="SP_ObtenerHistoria" ReturnType="Collection(DB_SWCDModel.SP_ObtenerHistoria_Result)" />
-          <FunctionImport Name="SP_ObtenerLlamados" ReturnType="Collection(DB_SWCDModel.SP_ObtenerLlamados_Result)" />
+          <FunctionImport Name="SP_ObtenerLlamados" ReturnType="Collection(DB_SWCDModel.SP_ObtenerLlamados_Result)">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SP_CitaMedicos_Result">
+          <Property Type="Int32" Name="CitaID" Nullable="false" />
           <Property Type="DateTime" Name="FechaAtencion" Nullable="true" />
           <Property Type="Time" Name="InicioAtencion" Nullable="true" />
           <Property Type="String" Name="Obervacion" Nullable="true" MaxLength="1000" />
@@ -506,7 +578,12 @@
           <Property Type="String" Name="Apellido" Nullable="false" MaxLength="200" />
           <Property Type="Int32" Name="MedicoID" Nullable="false" />
           <Property Type="Int32" Name="PacienteID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_DatosPaciente_Result">
           <Property Type="Int32" Name="CitaID" Nullable="false" />
+          <Property Type="String" Name="Dni" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Apellido" Nullable="false" MaxLength="200" />
         </ComplexType>
         <ComplexType Name="SP_ObtenerCitados_Result">
           <Property Type="Int32" Name="CitaID" Nullable="false" />
@@ -530,10 +607,6 @@
         </ComplexType>
         <ComplexType Name="SP_ObtenerLlamados_Result">
           <Property Type="Int32" Name="CitaID" Nullable="false" />
-          <Property Type="Int32" Name="EstadoCitaID" Nullable="false" />
-          <Property Type="DateTime" Name="FechaAtencion" Nullable="true" />
-          <Property Type="Time" Name="InicioAtencion" Nullable="true" />
-          <Property Type="String" Name="Obervacion" Nullable="true" MaxLength="1000" />
           <Property Type="String" Name="Dni" Nullable="true" MaxLength="8" />
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Apellido" Nullable="false" MaxLength="200" />
@@ -575,6 +648,20 @@
               <MappingFragment StoreEntitySet="Estado_Cita">
                 <ScalarProperty Name="EstadoCitaID" ColumnName="EstadoCitaID" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Historia_Clinica">
+            <EntityTypeMapping TypeName="DB_SWCDModel.Historia_Clinica">
+              <MappingFragment StoreEntitySet="Historia_Clinica">
+                <ScalarProperty Name="HistoriaClinicaID" ColumnName="HistoriaClinicaID" />
+                <ScalarProperty Name="Dni" ColumnName="Dni" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="TratamientoID" ColumnName="TratamientoID" />
+                <ScalarProperty Name="CitaID" ColumnName="CitaID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -626,14 +713,13 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="DB_SWCDModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
+          <EntitySetMapping Name="Tratamiento">
+            <EntityTypeMapping TypeName="DB_SWCDModel.Tratamiento">
+              <MappingFragment StoreEntitySet="Tratamiento">
+                <ScalarProperty Name="TratamientoID" ColumnName="TratamientoID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -656,6 +742,7 @@
           <FunctionImportMapping FunctionImportName="SP_CitaMedicos" FunctionName="DB_SWCDModel.Store.SP_CitaMedicos">
             <ResultMapping>
               <ComplexTypeMapping TypeName="DB_SWCDModel.SP_CitaMedicos_Result">
+                <ScalarProperty Name="CitaID" ColumnName="CitaID" />
                 <ScalarProperty Name="FechaAtencion" ColumnName="FechaAtencion" />
                 <ScalarProperty Name="InicioAtencion" ColumnName="InicioAtencion" />
                 <ScalarProperty Name="Obervacion" ColumnName="Obervacion" />
@@ -664,7 +751,16 @@
                 <ScalarProperty Name="Apellido" ColumnName="Apellido" />
                 <ScalarProperty Name="MedicoID" ColumnName="MedicoID" />
                 <ScalarProperty Name="PacienteID" ColumnName="PacienteID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_DatosPaciente" FunctionName="DB_SWCDModel.Store.SP_DatosPaciente">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_SWCDModel.SP_DatosPaciente_Result">
                 <ScalarProperty Name="CitaID" ColumnName="CitaID" />
+                <ScalarProperty Name="Dni" ColumnName="Dni" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -700,10 +796,6 @@
             <ResultMapping>
               <ComplexTypeMapping TypeName="DB_SWCDModel.SP_ObtenerLlamados_Result">
                 <ScalarProperty Name="CitaID" ColumnName="CitaID" />
-                <ScalarProperty Name="EstadoCitaID" ColumnName="EstadoCitaID" />
-                <ScalarProperty Name="FechaAtencion" ColumnName="FechaAtencion" />
-                <ScalarProperty Name="InicioAtencion" ColumnName="InicioAtencion" />
-                <ScalarProperty Name="Obervacion" ColumnName="Obervacion" />
                 <ScalarProperty Name="Dni" ColumnName="Dni" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Apellido" ColumnName="Apellido" />

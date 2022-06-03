@@ -12,10 +12,20 @@ namespace SW_Consultorio.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Perfil
+    public partial class Tratamiento
     {
-        public int PerfilID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Tratamiento()
+        {
+            this.Historia_Clinica = new HashSet<Historia_Clinica>();
+        }
+    
+        public int TratamientoID { get; set; }
         public string Nombre { get; set; }
+        public double Precio { get; set; }
         public bool Estado { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Historia_Clinica> Historia_Clinica { get; set; }
     }
 }

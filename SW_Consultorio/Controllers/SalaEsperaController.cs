@@ -10,10 +10,11 @@ namespace SW_Consultorio.Controllers
     public class SalaEsperaController : Controller
     {
         private DB_SWCDEntities db = new DB_SWCDEntities();
-        // GET: SalaEspera
+        //GET: SalaEspera
         public ActionResult Index()
         {
-            return View(db.SP_ObtenerLlamados().ToList());
+            return View();
+            //return View(db.SP_ObtenerLlamados().ToList());
         }
     }
 }

@@ -151,6 +151,9 @@
     <Compile Include="Models\Estado_Cita.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Historia_Clinica.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Medico.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -181,6 +184,9 @@
     <Compile Include="Models\SP_CitaMedicos_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_DatosPaciente_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_ObtenerCitados_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -190,7 +196,7 @@
     <Compile Include="Models\SP_ObtenerLlamados_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagrams.cs">
+    <Compile Include="Models\Tratamiento.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Usuario.cs">
@@ -447,6 +453,12 @@
     <Content Include="vendors\iCheck\skins\square\yellow.css" />
     <Content Include="vendors\iCheck\skins\square\yellow.png" />
     <Content Include="vendors\iCheck\skins\square\_all.css" />
+    <Content Include="vendors\jQuery-Smart-Wizard\images\loader.gif" />
+    <Content Include="vendors\jQuery-Smart-Wizard\js\jquery-1.4.2.min.js" />
+    <Content Include="vendors\jQuery-Smart-Wizard\js\jquery.smartWizard.js" />
+    <Content Include="vendors\jQuery-Smart-Wizard\styles\demo_style.css" />
+    <Content Include="vendors\jQuery-Smart-Wizard\styles\smart_wizard.css" />
+    <Content Include="vendors\jQuery-Smart-Wizard\styles\smart_wizard_vertical.css" />
     <Content Include="vendors\jquery\dist\jquery.js" />
     <Content Include="vendors\jquery\dist\jquery.min.js" />
     <Content Include="vendors\jquery\external\sizzle\dist\sizzle.js" />
@@ -947,6 +959,10 @@
     <Content Include="Views\Admision\Index.cshtml" />
     <Content Include="Views\Doctor\ObtenerCitas.cshtml" />
     <Content Include="Views\SalaEspera\Index.cshtml" />
+    <Content Include="Views\Doctor\AtenderPaciente.cshtml" />
+    <Content Include="Views\Doctor\ObtenerCitaLlamados.cshtml" />
+    <Content Include="vendors\jQuery-Smart-Wizard\.bower.json" />
+    <Content Include="vendors\jQuery-Smart-Wizard\README.md" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -12,12 +12,18 @@ namespace SW_Consultorio.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Empleado
+    public partial class Historia_Clinica
     {
-        public int EmpleadoID { get; set; }
+        public int HistoriaClinicaID { get; set; }
         public string Dni { get; set; }
         public string Nombre { get; set; }
-        public string Telefono { get; set; }
-        public string Email { get; set; }
+        public string Apellido { get; set; }
+        public Nullable<bool> Genero { get; set; }
+        public Nullable<System.DateTime> FechaNacimiento { get; set; }
+        public Nullable<int> TratamientoID { get; set; }
+        public int CitaID { get; set; }
+    
+        public virtual Cita Cita { get; set; }
+        public virtual Tratamiento Tratamiento { get; set; }
     }
 }

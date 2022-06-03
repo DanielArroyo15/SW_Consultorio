@@ -66,6 +66,7 @@ namespace SW_Consultorio.Controllers
                     temp.Apellido = omedico.Apellido.TrimEnd();
                     temp.Telefono = omedico.Telefono.TrimEnd();
                     temp.Email = omedico.Email.TrimEnd();
+                    temp.UsuarioID = omedico.UsuarioID;
 
                     db.SaveChanges();
                 }
@@ -83,6 +84,12 @@ namespace SW_Consultorio.Controllers
         {
             return View(db.SP_CitaMedicos(id).ToList());
         }
+
+        //public JsonResult Atender(int id)
+        //{
+        //    bool respuesta = true;
+        //    return Json(new { resultado = respuesta }, JsonRequestBehavior.AllowGet);
+        //}
 
         public JsonResult ObtienePaciente(int id)
         {
@@ -109,11 +116,10 @@ namespace SW_Consultorio.Controllers
             return Json( opaciente, JsonRequestBehavior.AllowGet);
         }
 
+        //metodo cambia de estado la cita a estado llamado
         public JsonResult CambiaCitaLlamado(int id)
         {
             bool respuesta = true;
-
-
             try
             {
                 if (id != 0)
@@ -129,5 +135,73 @@ namespace SW_Consultorio.Controllers
 
             return Json(new { resultado = respuesta }, JsonRequestBehavior.AllowGet);
         }
+
+
+
+
+        //cambia de estado la cita a atender
+
+        //public JsonResult CambiaCitaAtender(int id)
+        //{
+        //    bool respuesta = true;
+        //    try
+        //    {
+        //        if (id != 0)
+        //        {
+        //            db.SP_CitaAtencion(id);
+        //            db.SaveChanges();
+        //        }           
+        //    }
+        //    catch
+        //    {
+        //         respuesta = false;
+        //    }
+        //    return Json(new { resultado = respuesta }, JsonRequestBehavior.AllowGet);
+        //}
+
+
+        //metodo devuelve cita con estado llamado para un medico
+        public ActionResult ObtenerCitaLlamados(int id)
+        {
+            return View(db.SP_ObtenerLlamados(id).ToList());
+        }
+
+        //Carga los datos del formulario de atención
+        public JsonResult Atender(int id)
+        {
+            Paciente opaciente = new Paciente();
+            bool respuesta = true;
+            try
+            {
+                opaciente = db.SP_DatosPaciente(id);
+                
+
+                return Json(opaciente, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                respuesta = false;
+            }
+            return Json(new { resultado = respuesta }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        //public ActionResult AtenderPaciente(int id)
+        //{
+        //    bool respuesta = true;
+        //    try
+        //    {
+
+        //       var paciente = db.SP_DatosPaciente(id);
+        //        Paciente pac = (Paciente)paciente;
+        //        //actualizar el model paciente con la data obtenida del SP y devolver vista
+        //        return View();
+        //    }
+        //    catch
+        //    {
+        //        respuesta = false;
+        //    }
+
+        //}
     }
 }

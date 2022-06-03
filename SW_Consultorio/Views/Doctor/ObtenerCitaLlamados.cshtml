@@ -1,6 +1,6 @@
-﻿@model List<SW_Consultorio.Models.SP_ObtenerCitados_Result>
+﻿@model List<SW_Consultorio.Models.SP_ObtenerLlamados_Result>
 @{
-    ViewBag.Title = "Admision";
+    ViewBag.Title = "Obtener Llamados";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -34,7 +34,6 @@
                                 <tr>
                                     <th>Nombre</th>
                                     <th>Apellido</th>                                    
-                                    <th>Observacion</th>                                    
                                     <th> </th>
                                 </tr>
                             </thead>
@@ -42,18 +41,15 @@
                             @foreach (var item in Model)
                             {
                                 <tbody id="tbodyData">
-                                    <tr>                                        
+                                    <tr>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Nombre)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Apellido)
                                         </td>                                       
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Obervacion)
-                                        </td>                                                                            
                                         <td style="text-align:center">
-                                            <button class="btn btn-primary" type="button" onclick="PasarCita(@Html.DisplayFor(modelItem => item.CitaID))"><span class="fa fa-folder">  Admision</span></button>
+                                            <button class="btn btn-success" type="button" onclick="abrirModal(@item.CitaID)"><span class="fa fa-microphone"> Atender</span></button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -68,29 +64,19 @@
 
 <!--Script-->
 <script>
-
-    function PasarCita(id) {
-
-        jQuery.ajax({
-            url: '@Url.Action("CambiaCitaAdmision","Admision")' + '/' + id,
-            type: 'GET',
-            dataType: 'json',
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                if (data.resultado) {                    
-                    Swal.fire(
-                        'Llego!',
-                        'Paciente esperando consulta',
-                        'success'
-                    )
-                    location.reload();
-                } else {
-                    alertanot();
+    function abrirModal($citaid) {
+        console.log($citaid);
+        if ($citaid != 0) {
+            jQuery.ajax({
+                url: '@Url.Action("Atender", "Doctor")' + '/' + $citaid,
+                type: 'POST',
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    console.log(data);
                 }
-            }
-        });
+            });
+        }
     }
-
-
 </script>
 <!--Script-->

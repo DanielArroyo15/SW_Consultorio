@@ -95,7 +95,10 @@
                                     if (oUsuario.PerfilID == 3)
                                     {
                                         <li>
-                                            <a  href="@Url.Action("Index","Admision")"><i class="fa fa-heartbeat"></i> Admisión <span></span></a>
+                                            <a href="@Url.Action("Index","Admision")"><i class="fa fa-heartbeat"></i> Admisión <span></span></a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index","SalaEspera")"><i class="fa fa-heartbeat"></i> Sala de espera <span></span></a>
                                         </li>
                                     }
                                 }
@@ -109,7 +112,10 @@
                                             <a><i class="fa fa-heartbeat"></i> Historia Clinica <span></span></a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("ObtenerCitas"+"/"+oUsuario.UsarioID,"Doctor")"><i class="fa fa-heartbeat"></i> Consulta Pacientes <span></span></a>
+                                            <a href="@Url.Action("ObtenerCitas"+"/"+oUsuario.UsarioID,"Doctor")"><i class="fa fa-heartbeat"></i> Llamar Paciente <span></span></a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("ObtenerCitaLlamados"+"/"+oUsuario.UsarioID,"Doctor")"><i class="fa fa-heartbeat"></i> Atender Paciente <span></span></a>
                                         </li>
                                     }
                                 }
