@@ -169,12 +169,11 @@ namespace SW_Consultorio.Controllers
         //Carga los datos del formulario de atención
         public JsonResult Atender(int id)
         {
-            Paciente opaciente = new Paciente();
             bool respuesta = true;
             try
             {
-                opaciente = db.SP_DatosPaciente(id);
-                
+                var opaciente = db.SP_DatosPaciente(id);
+
 
                 return Json(opaciente, JsonRequestBehavior.AllowGet);
             }
@@ -186,22 +185,22 @@ namespace SW_Consultorio.Controllers
 
         }
 
-        //public ActionResult AtenderPaciente(int id)
-        //{
-        //    bool respuesta = true;
-        //    try
-        //    {
+        public ActionResult AtenderPaciente(int id)
+        {
+            bool respuesta = true;
+            try
+            {
 
-        //       var paciente = db.SP_DatosPaciente(id);
-        //        Paciente pac = (Paciente)paciente;
-        //        //actualizar el model paciente con la data obtenida del SP y devolver vista
-        //        return View();
-        //    }
-        //    catch
-        //    {
-        //        respuesta = false;
-        //    }
+                var paciente = db.SP_DatosPaciente(id);
+                //actualizar el model paciente con la data obtenida del SP y devolver vista
+                return View(paciente.FirstOrDefault());
+            }
+            catch
+            {
+                respuesta = false;
+                return View();
+            }
 
-        //}
+        }
     }
 }
